@@ -16,7 +16,7 @@ class TeamMonitorTask : BukkitRunnable() {
 
     private fun displayTeamName(player: Player) {
         val teamName = TeamManager.getTeamName(player)
-        val message = "${ChatColor.GOLD}[開発用] 参加チーム:$teamName"
+        val message = "${ChatColor.GOLD}[開発用] 参加チーム：$teamName"
         // アクションバーに表示
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *TextComponent.fromLegacyText(message))
     }
