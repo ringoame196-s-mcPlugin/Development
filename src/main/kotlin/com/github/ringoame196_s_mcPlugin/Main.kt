@@ -11,5 +11,7 @@ class Main : JavaPlugin() {
         server.pluginManager.registerEvents(Events(), plugin)
         val command = getCommand("dev")
         command!!.setExecutor(Command())
+
+        TeamMonitorTask().runTaskTimer(this, 0L, 20L) // 20 tick（= 約1秒）ごとに実行
     }
 }
