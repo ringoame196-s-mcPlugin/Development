@@ -11,4 +11,14 @@ object TeamManager {
         val teamColor = team?.color ?: ChatColor.WHITE
         return "${teamColor}$teamDisplayName"
     }
+
+    fun hasTeamChanged(player: Player): Boolean {
+        val uuid = player.uniqueId
+        val currentTeam = getTeamName(player)
+        val previousTeam = previousTeams[uuid]
+
+        previousTeams[uuid] = currentTeam
+
+        return currentTeam != previousTeam
+    }
 }
