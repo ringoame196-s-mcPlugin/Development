@@ -17,6 +17,11 @@
 - アクションバーにチーム名表示
 - チーム変更通知メッセージ
 
+
+
+https://github.com/user-attachments/assets/3f7834ed-f374-44d5-af5d-ae6136de0a5b
+
+
 </details>
 
 ## configファイル
