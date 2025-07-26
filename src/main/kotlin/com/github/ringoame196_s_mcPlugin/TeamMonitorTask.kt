@@ -11,6 +11,7 @@ class TeamMonitorTask : BukkitRunnable() {
     override fun run() {
         for (player in Bukkit.getOnlinePlayers()) {
             displayTeamName(player)
+            teamChangeMessage(player)
         }
     }
 
@@ -19,5 +20,14 @@ class TeamMonitorTask : BukkitRunnable() {
         val message = "${ChatColor.GOLD}[開発用] 参加チーム：$teamName"
         // アクションバーに表示
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *TextComponent.fromLegacyText(message))
+    }
+
+    private fun teamChangeMessage(player: Player) {
+        if (!TeamManager.hasTeamChanged(player)) return
+
+        val teamName = TeamManager.getTeamName(player)
+        val message = if (teamName != null) "${ChatColor.GOLD}[開発用] ${teamName}に参加しました"
+        else "${ChatColor.GOLD}[開発用]${ChatColor.AQUA}チームから抜けました"
+        player.sendMessage(message)
     }
 }
