@@ -1,5 +1,6 @@
-package com.github.ringoame196_s_mcPlugin
+package com.github.ringoame196_s_mcPlugin.reload
 
+import com.github.ringoame196_s_mcPlugin.core.PluginManager
 import com.sun.net.httpserver.HttpServer
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin

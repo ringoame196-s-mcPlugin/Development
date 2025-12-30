@@ -1,7 +1,8 @@
-package com.github.ringoame196_s_mcPlugin
+package com.github.ringoame196_s_mcPlugin.core
 
 import com.github.ringoame196_s_mcPlugin.commands.DevCommand
 import com.github.ringoame196_s_mcPlugin.events.Events
+import com.github.ringoame196_s_mcPlugin.reload.ReloadManagementServer
 import com.github.ringoame196_s_mcPlugin.team.TeamMonitorTask
 import org.bukkit.plugin.java.JavaPlugin
 
