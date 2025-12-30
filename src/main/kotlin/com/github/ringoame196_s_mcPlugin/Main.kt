@@ -19,8 +19,6 @@ class Main : JavaPlugin() {
         // コマンド
         val devCommand = getCommand("dev")
         devCommand!!.setExecutor(DevCommand())
-        val command = getCommand("pluginupdate")
-        command!!.setExecutor(PluginUpdateCommand())
 
         // チーム表示関係
         TeamMonitorTask().runTaskTimer(this, 0L, 20L) // 20 tick（= 約1秒）ごとに実行
