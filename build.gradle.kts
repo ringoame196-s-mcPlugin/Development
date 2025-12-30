@@ -45,6 +45,18 @@ configure<BukkitPluginDescription> {
             permission = "op"
             usage = "/dev <reload>"
         }
+        register("pluginupdate") {
+            description = "AutomaticCreatingPluginUpdate用コマンド"
+            usage = "/pluginupdate <プラグイン名>"
+            permission = "automatic_creating_plugin_update.op"
+        }
+    }
+
+    permissions{
+        register("automatic_creating_plugin_update.op") {
+            description = "itemBag giveを使うための権限"
+            default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
+        }
     }
 }
 
@@ -70,7 +82,7 @@ tasks.named("build") {
         }
         doLast {
             val port = 25585
-            val ip = "192.168.0.21"
+            val ip = "ringoame-server"
             val apiUrl = "http://$ip:$port/plugin?name=${project.name}"
 
             try {
