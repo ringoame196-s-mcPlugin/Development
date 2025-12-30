@@ -1,14 +1,13 @@
 package com.github.ringoame196_s_mcPlugin
 
 import com.github.ringoame196_s_mcPlugin.commands.DevCommand
-import com.github.ringoame196_s_mcPlugin.commands.PluginUpdateCommand
 import com.github.ringoame196_s_mcPlugin.events.Events
 import com.github.ringoame196_s_mcPlugin.team.TeamMonitorTask
 import org.bukkit.plugin.java.JavaPlugin
 
 class Main : JavaPlugin() {
     private val plugin = this
-    lateinit var reloadManagementServer: ReloadManagementServer
+    private var reloadManagementServer = ReloadManagementServer(plugin)
     override fun onEnable() {
         super.onEnable()
 
@@ -26,17 +25,15 @@ class Main : JavaPlugin() {
         // reloadManagementServer関係
         val config = plugin.config
         val port = config.getInt("Port")
-        reloadManagementServer = ReloadManagementServer(plugin)
         reloadManagementServer.start(port)
+
         // プラグインリロード関係
         val reloadCommand = config.getString("ReloadCommand") ?: "pluginmanager reload @pluginName"
-        PluginManager.setup(plugin, reloadCommand)
+        PluginManager.setup(reloadCommand)
     }
 
     override fun onDisable() {
         super.onDisable()
-        if (::reloadManagementServer.isInitialized) {
-            reloadManagementServer.stop()
-        }
+        reloadManagementServer.stop()
     }
 }

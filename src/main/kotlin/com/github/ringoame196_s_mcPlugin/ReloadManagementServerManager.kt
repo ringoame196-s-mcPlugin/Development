@@ -31,12 +31,12 @@ object ReloadManagementServerManager {
                 exchange.close()
             }
         }
-        return server
+        return server!!
     }
 
     fun handlePluginRequest(plugin: Plugin, query: String?): String {
         val pluginName = getPluginName(query) ?: return "invalidQuery"
-        addReloadPlugin(plugin, pluginName)
+        reloadPlugin(plugin, pluginName)
         Bukkit.getLogger().info("[$pluginName] Queued Reload $pluginName")
 
         return "Queued Reload $pluginName"
@@ -54,12 +54,11 @@ object ReloadManagementServerManager {
         }
     }
 
-    private fun addReloadPlugin(plugin: Plugin, pluginName: String) {
+    private fun reloadPlugin(plugin: Plugin, pluginName: String) {
         Bukkit.getScheduler().runTask(
             plugin,
             Runnable {
-                val reloadPlugin = PluginManager.acquisitionPlugin(pluginName) ?: return@Runnable
-                PluginManager.addReloadPlugin(reloadPlugin.name)
+                PluginManager.autoReload(plugin, pluginName)
             }
         )
     }
