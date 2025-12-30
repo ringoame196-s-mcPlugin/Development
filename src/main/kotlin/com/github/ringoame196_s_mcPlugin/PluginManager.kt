@@ -1,9 +1,5 @@
 package com.github.ringoame196_s_mcPlugin
 
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.ComponentBuilder
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
@@ -25,23 +21,8 @@ object PluginManager {
         reloadablePlugin.add(pluginName)
 
         val message = "${ChatColor.YELLOW}[$developPluginName]${pluginName}を自動リロードしました"
+        autoReload(pluginName)
         sendOpMessage(message)
-    }
-
-    fun createReloadMessage(pluginName: String): TextComponent {
-        val command = "/pluginupdate $pluginName"
-
-        // メインメッセージ部分
-        val mainMessage = TextComponent("${ChatColor.YELLOW}[$developPluginName] プラグイン名($pluginName) ")
-        // クリック可能なリロード部分
-        val reloadComponent = TextComponent("${ChatColor.AQUA}[リロード]")
-        // ホバーテキストを設定
-        reloadComponent.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("クリックしてプラグインをリロードします").create())
-        // クリック時にコマンド実行
-        reloadComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, command)
-        // メインメッセージにリロード部分を追加
-        mainMessage.addExtra(reloadComponent)
-        return mainMessage
     }
 
     fun reloadPlugin(sender: CommandSender, pluginName: String) {
@@ -67,16 +48,6 @@ object PluginManager {
 
     fun acquisitionPlugin(pluginName: String): Plugin? { // プラグインがあるか確認
         return Bukkit.getPluginManager().getPlugin(pluginName)
-    }
-
-    fun sendOpMessage(message: TextComponent) {
-        // メッセージをOPプレイヤーに送信
-        for (player in Bukkit.getOnlinePlayers()) {
-            if (!player.isOp) {
-                continue
-            }
-            player.spigot().sendMessage(message)
-        }
     }
 
     fun sendOpMessage(message: String) {
