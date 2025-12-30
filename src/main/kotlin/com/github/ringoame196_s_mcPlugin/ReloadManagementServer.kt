@@ -9,19 +9,22 @@ class ReloadManagementServer(private val plugin: Plugin) {
     private val developPluginName = plugin.name
 
     fun start(port: Int) {
-        if (checkServer()) {
-            Bukkit.getLogger().severe("[$developPluginName] setup() was not called")
+        if (server != null) {
+            Bukkit.getLogger().warning("[$developPluginName] Server already started")
             return
         }
-        ReloadManagementServerManager.create(port, plugin).start()
-    }
-    fun stop() {
-        if (!checkServer()) return
-        server?.stop(1) // サーバーを止める
-        Bukkit.getLogger().info("[$developPluginName] Server stopped")
+
+        server = ReloadManagementServerManager.create(port, plugin)
+        server!!.start()
+
+        Bukkit.getLogger().info("[$developPluginName] Server started on port $port")
     }
 
-    private fun checkServer(): Boolean {
-        return server != null
+    fun stop() {
+        val s = server ?: return
+        s.stop(1)
+        server = null
+
+        Bukkit.getLogger().info("[$developPluginName] Server stopped")
     }
 }
