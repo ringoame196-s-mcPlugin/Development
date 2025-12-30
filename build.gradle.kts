@@ -45,19 +45,8 @@ configure<BukkitPluginDescription> {
             permission = "op"
             usage = "/dev <reload>"
         }
-        register("pluginupdate") {
-            description = "AutomaticCreatingPluginUpdate用コマンド"
-            usage = "/pluginupdate <プラグイン名>"
-            permission = "automatic_creating_plugin_update.op"
-        }
     }
 
-    permissions{
-        register("automatic_creating_plugin_update.op") {
-            description = "itemBag giveを使うための権限"
-            default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
-        }
-    }
 }
 
 tasks.withType<ShadowJar> {

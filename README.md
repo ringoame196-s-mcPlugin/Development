@@ -23,6 +23,11 @@ https://github.com/user-attachments/assets/3f7834ed-f374-44d5-af5d-ae6136de0a5b
 
 
 </details>
+<details>
+    <summary>更新通知</summary>
+
+- プラグインbuild時に自動でリロードコマンドを実行させる
+</details>
 
 ## configファイル
 | key名   |     説明      | デフォルト値 |

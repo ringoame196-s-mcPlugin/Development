@@ -1,37 +1,46 @@
-package com.github.ringoame196_s_mcPlugin
+package com.github.ringoame196_s_mcPlugin.reload
 
+import com.github.ringoame196_s_mcPlugin.core.PluginManager
 import com.sun.net.httpserver.HttpServer
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
-import java.io.OutputStream
 import java.net.InetSocketAddress
 
 object ReloadManagementServerManager {
     fun create(port: Int, plugin: Plugin): HttpServer {
         val server = HttpServer.create(InetSocketAddress(port), 0)
+
         server.createContext("/plugin") { exchange ->
+            if (exchange.requestMethod != "GET") {
+                exchange.sendResponseHeaders(405, -1)
+                exchange.close()
+                return@createContext
+            }
+
             val response = handlePluginRequest(
                 plugin,
                 exchange.requestURI.query
             )
 
             // webサイトの内容を書き換える
-            exchange.sendResponseHeaders(200, response.length.toLong())
-            exchange.responseBody.use { os: OutputStream ->
-                os.write(response.toByteArray())
+            try {
+                exchange.sendResponseHeaders(200, response.length.toLong())
+                exchange.responseBody.use { os ->
+                    os.write(response.toByteArray())
+                }
+            } finally {
+                exchange.close()
             }
         }
-        return server
+        return server!!
     }
 
     fun handlePluginRequest(plugin: Plugin, query: String?): String {
         val pluginName = getPluginName(query) ?: return "invalidQuery"
+        reloadPlugin(plugin, pluginName)
+        Bukkit.getLogger().info("[$pluginName] Queued Reload $pluginName")
 
-        val reloadPlugin = PluginManager.acquisitionPlugin(pluginName)
-            ?: return "pluginNotFound"
-
-        runReload(plugin, reloadPlugin.name)
-        return "Reload $pluginName"
+        return "Queued Reload $pluginName"
     }
 
     private fun getPluginName(query: String?): String? {
@@ -46,11 +55,11 @@ object ReloadManagementServerManager {
         }
     }
 
-    private fun runReload(plugin: Plugin, targetPlugin: String) {
+    private fun reloadPlugin(plugin: Plugin, pluginName: String) {
         Bukkit.getScheduler().runTask(
             plugin,
             Runnable {
-                PluginManager.addReloadPlugin(targetPlugin)
+                PluginManager.autoReload(plugin, pluginName)
             }
         )
     }
