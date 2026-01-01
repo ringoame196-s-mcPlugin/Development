@@ -33,7 +33,7 @@ dependencies {
 }
 
 configure<BukkitPluginDescription> {
-    main = "com.github.ringoame196_s_mcPlugin.Main"
+    main = "com.github.ringoame196_s_mcPlugin.core.Main"
     version = pluginVersion
     apiVersion = "1." + pluginVersion.split(".")[1]
     author = "ringoame196_s_mcPlugin"
