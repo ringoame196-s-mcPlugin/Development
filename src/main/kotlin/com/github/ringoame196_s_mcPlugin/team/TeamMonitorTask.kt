@@ -8,6 +8,8 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
 class TeamMonitorTask : BukkitRunnable() {
+    private val noDisplayTeamName = "no_display"
+
     override fun run() {
         for (player in Bukkit.getOnlinePlayers()) {
             displayTeamName(player)
@@ -19,7 +21,9 @@ class TeamMonitorTask : BukkitRunnable() {
         val teamName = TeamManager.getTeamName(player) ?: "${ChatColor.WHITE}参加していません"
         val message = "${ChatColor.GOLD}[開発用] 参加チーム：$teamName"
         // アクションバーに表示
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *TextComponent.fromLegacyText(message))
+        if (teamName != noDisplayTeamName) {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *TextComponent.fromLegacyText(message))
+        }
     }
 
     private fun teamChangeMessage(player: Player) {
