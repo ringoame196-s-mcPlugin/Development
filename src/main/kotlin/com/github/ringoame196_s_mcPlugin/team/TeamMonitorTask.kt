@@ -19,7 +19,9 @@ class TeamMonitorTask : BukkitRunnable() {
         val teamName = TeamManager.getTeamName(player) ?: "${ChatColor.WHITE}参加していません"
         val message = "${ChatColor.GOLD}[開発用] 参加チーム：$teamName"
         // アクションバーに表示
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *TextComponent.fromLegacyText(message))
+        if (!teamName.contains(".")) {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *TextComponent.fromLegacyText(message))
+        }
     }
 
     private fun teamChangeMessage(player: Player) {
