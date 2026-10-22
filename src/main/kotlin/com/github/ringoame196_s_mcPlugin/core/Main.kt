@@ -14,7 +14,7 @@ class Main : JavaPlugin() {
 
         plugin.saveDefaultConfig() // configファイル生成
 
-        server.pluginManager.registerEvents(Events(), plugin)
+        server.pluginManager.registerEvents(Events(plugin), plugin)
 
         // コマンド
         val devCommand = getCommand("dev")
